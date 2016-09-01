@@ -6,5 +6,5 @@ Install
 ---------
 
 ```bash
-npm install --save mobile-cards
+npm install --save io2-mobile-cards
 ```
