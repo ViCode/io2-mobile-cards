@@ -9,6 +9,10 @@ Install
 npm install --save io2-mobile-cards
 ```
 
+Demo
+---------
+https://github.com/ViCode/card-demo
+
 Usage
 ---------
 
