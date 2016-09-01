@@ -1,0 +1,70 @@
+{
+    "name": "io2-mobile-cards",
+    "title": "IO2 Mobile Cards",
+    "description": "An Ionic2 module which contains tools for manipulating cards",
+    "version": "1.0.0",
+    "license": "MIT",
+    "keywords": [
+        "Angular",
+        "Angular2",
+        "Ionic",
+        "Ionic2",
+        "Card",
+        "Tinder"
+    ],
+    "author": {
+        "name": "Zeinstra Victor",
+        "email": "zeinstra.victor@gmail.com"
+    },
+    "contributors": [{
+        "name": "Zeinstra Victor",
+        "email": "zeinstra.victor@gmail.com"
+    }],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ViCode/io2-mobile-cards"
+    },
+    "bugs": {
+        "url": "https://github.com/ViCode/io2-mobile-cards/issues"
+    },
+    "dependencies": {
+        "hammerjs": "^2.0.8",
+        "nested-property": "0.0.6"
+    },
+    "devDependencies": {
+        "@angular/common": "^2.0.0-rc.1",
+        "@angular/compiler": "^2.0.0-rc.1",
+        "@angular/core": "^2.0.0-rc.1",
+        "@angular/http": "^2.0.0-rc.1",
+        "@angular/platform-browser": "^2.0.0-rc.1",
+        "@angular/platform-browser-dynamic": "^2.0.0-rc.1",
+        "@angular/router": "^2.0.0-rc.1",
+        "ionic-angular": "2.0.0-beta.7",
+        "ionic-native": "1.2.4",
+        "ionicons": "3.0.0",
+        "babel-cli": "^6.2.0",
+        "babel-plugin-angular2-annotations": "3.1.0",
+        "babel-plugin-transform-class-properties": "6.3.13",
+        "babel-plugin-transform-decorators": "^6.3.13",
+        "babel-plugin-transform-decorators-legacy": "1.3.4",
+        "babel-plugin-transform-flow-strip-types": "6.3.15",
+        "babel-preset-es2015": "^6.1.18",
+        "babel-register": "^6.3.13",
+        "chai": "^3.4.1",
+        "coveralls": "^2.11.6",
+        "es6-shim": "^0.35.0",
+        "mocha": "^2.3.4",
+        "nyc": "^5.1.1",
+        "reflect-metadata": "^0.1.3",
+        "rxjs": "5.0.0-beta.6",
+        "zone.js": "^0.6.12"
+    },
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "rm -rf dist/* && babel lib --out-dir dist --source-maps",
+        "prepublish": "npm run build"
+    },
+    "engines": {
+        "node": ">=0.8.0"
+    }
+}
