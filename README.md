@@ -24,12 +24,12 @@ Usage
 </tinder-card>
 ```
 
-Display the cards according to your need by using the tinder-car API:
-onReleaseLike: this ouput event will be thrown when the card is liked or disliked.
-onLike: this input event will launch the liked or disliked event and swipe the card out of the screen.
-overlay: this input object will initialize an overlay above the card which display a color and an image when swiping the card. This is really optional.
-fixed: this input boolean indicates if the card is swipable or not.
-
+Display the cards according to your need by using the tinder-car API: <br />
+onReleaseLike: this ouput event will be thrown when the card is liked or disliked. <br />
+onLike: this input event will launch the liked or disliked event and swipe the card out of the screen. <br />
+overlay: this input object will initialize an overlay above the card which display a color and an image when swiping the card. This is really optional. <br />
+fixed: this input boolean indicates if the card is swipable or not. <br />
+<br />
 You can insert the content of the card between the tinder-card tags.
 
 ```javascript
