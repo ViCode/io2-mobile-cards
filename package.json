@@ -2,7 +2,7 @@
     "name": "io2-mobile-cards",
     "title": "IO2 Mobile Cards",
     "description": "An Ionic2 module which contains tools for manipulating cards",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "license": "MIT",
     "keywords": [
         "Angular",
