@@ -17,11 +17,11 @@ Usage
 ---------
 
 ```html
-<tinder-card *ngFor="let item of list;let i = index" (onReleaseLike)="onCardRelease($event)" [onLike]="item.likeEvent" class="card-heap" [overlay]="{like:{backgroundColor:'green', img:'img/like.png'}, dislike:{backgroundColor:'red', img:'img/dislike.png'}}" [fixed]="i != 0">
+<mb-tinder-card *ngFor="let item of list;let i = index" (onReleaseLike)="onCardRelease($event)" [onLike]="item.likeEvent" class="card-heap" [overlay]="{like:{backgroundColor:'green', img:'img/like.png'}, dislike:{backgroundColor:'red', img:'img/dislike.png'}}" [fixed]="i != 0">
   <span>
     {{item.name}}
   </span>
-</tinder-card>
+</mb-tinder-card>
 ```
 
 Display the cards according to your need by using the tinder-car API: <br />
