@@ -1,7 +1,9 @@
 import {
     Component,
     ElementRef,
-    EventEmitter
+    EventEmitter,
+    Input,
+    Output
 }
 from '@angular/core';
 
@@ -17,8 +19,6 @@ import {
   <ng-content></ng-content> \
   ',
     selector: 'mb-tinder-card',
-    inputs: ['fixed', 'overlay', 'onLike'],
-    outputs: ['onReleaseLike', 'onSwipeLike'],
     styles: ['.tinder-overlay { \
     transform: translateZ(0); \
     opacity: 0; \
@@ -60,16 +60,17 @@ import {
 ']
 })
 export class TinderCardDirective extends CardDirective {
-    static get parameters() {
-        return [
-            [ElementRef]
-        ];
-    }
-    constructor(el) {
+
+    @Input() overlay: any;
+    @Input() onLike: EventEmitter<any>;
+    @Output() onReleaseLike: EventEmitter<any> = new EventEmitter();
+    @Output() onSwipeLike: EventEmitter<any> = new EventEmitter();
+
+    like: boolean;
+
+    constructor(el: ElementRef) {
         super(el);
         var self = this;
-        self.onReleaseLike = new EventEmitter();
-        self.onSwipeLike = new EventEmitter();
         self.orientation = "x";
         self.onReleaseLikeCb = (event) => {
             self.like = event.like;
@@ -84,43 +85,71 @@ export class TinderCardDirective extends CardDirective {
             });
 
             if (self.overlay) {
-                let overlayElm = self.element.querySelector('.tinder-overlay');
+                let overlayElm = <HTMLElement>self.element.querySelector('.tinder-overlay');
                 overlayElm.style["transition"] = "opacity 0.6s ease";
-                overlayElm.style.opacity = 0.5;
+                overlayElm.style["opacity"] = "0.5";
             }
         };
         self.onSwipeLikeCb = (event) => {
             if (self.overlay) {
-                let overlayElm = self.element.querySelector('.tinder-overlay');
+                let overlayElm = <HTMLElement>self.element.querySelector('.tinder-overlay');
                 overlayElm.style["transition"] = "opacity 0s ease";
                 let opacity = (event.distance < 0 ? event.distance * -1 : event.distance) * 0.5 / self.element.offsetWidth;
-                overlayElm.style.opacity = opacity;
+                overlayElm.style.opacity = opacity.toString();
             }
         };
+    }
+
+    onReleaseLikeCb(event: any) {
+        this.like = event.like;
+        let el = this.element;
+        let x = (el.offsetWidth + el.clientWidth) * ((!!event.like ? 1 : -1) || 0);
+        let rotate = (x * 20) / el.clientWidth;
+        this.translate({
+            x: x,
+            y: 0,
+            rotate: rotate,
+            time: 0.8
+        });
+
+        if (this.overlay) {
+            let overlayElm = <HTMLElement>this.element.querySelector('.tinder-overlay');
+            overlayElm.style["transition"] = "opacity 0.6s ease";
+            overlayElm.style.opacity = "0.5";
+        }
+    }
+
+    onSwipeLikeCb(event: any) {
+        if (this.overlay) {
+            let overlayElm = <HTMLElement>this.element.querySelector('.tinder-overlay');
+            overlayElm.style["transition"] = "opacity 0s ease";
+            let opacity = (event.distance < 0 ? event.distance * -1 : event.distance) * 0.5 / this.element.offsetWidth;
+            overlayElm.style.opacity = opacity.toString();
+        }
     }
 
     ngOnInit() {
         super.ngOnInit();
         var self = this;
 
-        self.onRelease.subscribe((event) => {
+        self.onRelease.subscribe((event: any) => {
             let halfClientWidth = self.element.clientWidth / 2;
             let isOut = event.deltaX > halfClientWidth || event.deltaX < (-1 * halfClientWidth);
             if (isOut) {
                 this.like = event.like = event.deltaX > 0;
-                if (self.onReleaseLikeCb) {
-                    self.onReleaseLikeCb(event);
+                if (this.onReleaseLikeCb) {
+                    this.onReleaseLikeCb(event);
                 }
-                if (self.onReleaseLike) {
-                    self.onReleaseLike.emit(event);
+                if (this.onReleaseLike) {
+                    this.onReleaseLike.emit(event);
                 }
             } else {
-                if (self.overlay) {
-                    let overlayElm = self.element.querySelector('.tinder-overlay');
+                if (this.overlay) {
+                    let overlayElm = <HTMLElement>self.element.querySelector('.tinder-overlay');
                     overlayElm.style["transition"] = "opacity 0.2s ease";
-                    overlayElm.style.opacity = 0;
+                    overlayElm.style.opacity = "0";
                 }
-                self.translate({
+                this.translate({
                     x: 0,
                     y: 0,
                     rotate: 0,
@@ -129,19 +158,21 @@ export class TinderCardDirective extends CardDirective {
             }
         });
 
-        self.onSwipe.subscribe((event) => {
-            self.like = event.like = event.deltaX > 0;
-            if (self.onSwipeLikeCb) {
-                self.onSwipeLikeCb(event);
+        this.onSwipe.subscribe((event: any) => {
+            this.like = event.like = event.deltaX > 0;
+            if (this.onSwipeLikeCb) {
+                this.onSwipeLikeCb(event);
             }
-            if (self.onSwipeLike) {
-                self.onSwipeLike.emit(event);
+            if (this.onSwipeLike) {
+                this.onSwipeLike.emit(event);
             }
         });
 
-        self.onLike.subscribe((event) => {
-            self.onReleaseLikeCb(event);
-        });
+        if (this.onLike) {
+            this.onLike.subscribe((event: any) => {
+                this.onReleaseLikeCb(event);
+            });
+        }
     }
 
     ngOnDestroy() {
