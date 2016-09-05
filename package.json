@@ -1,6 +1,6 @@
 {
     "name": "io2-mobile-cards",
-    "version": "0.2.1",
+    "version": "1.2.0",
     "description": "card components for Ionic2",
     "main": "io2-mobile-cards.js",
     "typings": "./io2-mobile-cards.d.ts",
