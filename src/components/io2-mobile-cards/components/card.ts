@@ -24,7 +24,7 @@ import {
     }\
   ']
 })
-export class CardDirective {
+export class CardComponent {
     @Input() orientation: String = 'xy';
     @Input() fixed: Boolean = false;
     @Output() onRelease: EventEmitter<any> = new EventEmitter();
