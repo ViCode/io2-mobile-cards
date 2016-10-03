@@ -3,12 +3,13 @@ import {
     ElementRef,
     EventEmitter,
     Input,
-    Output
+    Output,
+    HostListener
 } from '@angular/core';
 
-import {
-    Gesture
-} from 'ionic-angular/gestures/gesture';
+// import {
+//     Gesture
+// } from 'ionic-angular/gestures/gesture';
 
 
 @Component({
@@ -31,7 +32,17 @@ export class CardComponent {
     @Output() onSwipe: EventEmitter<any> = new EventEmitter();
 
     element: HTMLElement;
-    swipeGesture: Gesture;
+
+    @HostListener('pan', ['$event'])
+    onPan(e: any) {
+        console.log('pan:', e);
+    }
+
+    @HostListener('panend', ['$event'])
+    onPanEnd(e: any) {
+        console.log('panend:', e);
+    }
+    //swipeGesture: Gesture;
 
     constructor(private el: ElementRef) {
         this.element = el.nativeElement;
@@ -66,29 +77,29 @@ export class CardComponent {
     ngOnInit() {
 
         // Set gestures
-        this.swipeGesture = new Gesture(this.element);
-        this.swipeGesture.listen();
-        this.swipeGesture.on("pan", (event: any) => {
-            if (!this.fixed) {
-                if (this.onSwipeCb) {
-                    this.onSwipeCb(event);
-                }
-                if (this.onSwipe) {
-                    this.onSwipe.emit(event);
-                }
-            }
-        });
-
-        this.swipeGesture.on("panend", (event: any) => {
-            if (!this.fixed) {
-                if (this.onReleaseCb) {
-                    this.onReleaseCb(event);
-                }
-                if (this.onRelease) {
-                    this.onRelease.emit(event);
-                }
-            }
-        });
+        // this.swipeGesture = new Gesture(this.element);
+        // this.swipeGesture.listen();
+        // this.swipeGesture.on("pan", (event: any) => {
+        //     if (!this.fixed) {
+        //         if (this.onSwipeCb) {
+        //             this.onSwipeCb(event);
+        //         }
+        //         if (this.onSwipe) {
+        //             this.onSwipe.emit(event);
+        //         }
+        //     }
+        // });
+        //
+        // this.swipeGesture.on("panend", (event: any) => {
+        //     if (!this.fixed) {
+        //         if (this.onReleaseCb) {
+        //             this.onReleaseCb(event);
+        //         }
+        //         if (this.onRelease) {
+        //             this.onRelease.emit(event);
+        //         }
+        //     }
+        // });
     }
 
     ngAfterViewChecked() {
@@ -100,7 +111,7 @@ export class CardComponent {
     }
 
     ngOnDestroy() {
-        this.swipeGesture.destroy();
+        //this.swipeGesture.destroy();
     }
 
 }
