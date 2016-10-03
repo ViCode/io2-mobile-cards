@@ -12,6 +12,8 @@ import { CardComponent, TinderCardComponent } from './components/index';
         TinderCardComponent
     ],
     exports: [
+        CardComponent,
+        TinderCardComponent
     ],
     entryComponents: [
         CardComponent,
