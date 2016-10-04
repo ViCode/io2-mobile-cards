@@ -1,32 +1,35 @@
-import { Component, ViewEncapsulation, ViewChild, TemplateRef } from '@angular/core';
-
-import { InAppModalModule, Modal } from './in-app-plugin/index';
+import { Component, ViewEncapsulation, ViewChild, TemplateRef, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'home',
-  providers: InAppModalModule.getProviders(),
-  templateUrl: './home.tpl.html',
-  encapsulation: ViewEncapsulation.None
+    selector: 'home',
+    templateUrl: './home.tpl.html',
+    encapsulation: ViewEncapsulation.None
 })
 export class Home {
-  @ViewChild('myTemplate', {read: TemplateRef}) public myTemplate: TemplateRef<any>;
+    @ViewChild('myTemplate', { read: TemplateRef }) public myTemplate: TemplateRef<any>;
+    cards: any[] = [];
+    cardCursor: number = 0;
 
-  constructor(private modal: Modal) {
-  }
+    constructor() {
+        for (var i = 0; i < 50; i++) {
+            this.cards.push({
+                id: i + 1,
+                likeEvent: new EventEmitter(),
+                destroyEvent: new EventEmitter()
+            });
+        }
+    }
 
-  ngAfterViewInit() {
-    this.modal.alert()
-      .title('Angular 2 Modal')
-      .templateRef(this.myTemplate)
-      .inElement(true)
-      .open('home-overlay-container')
-      .then(d => d.result)
-      .catch((e) => {
-        console.log('This message should appear if you navigate away from the home page.');
-        console.log('If a modal is opened in a view container within a component that is the page or' +
-          'part of the page, navigation will destroy the page thus destroy the modal. To prevent ' +
-          'memory leaks and unexpected behavior a "DialogBailOutError" error is thrown.');
-        console.log(e);
-      });
-  }
+    like(like) {
+        var self = this;
+        if (this.cards.length > 0) {
+            self.cards[this.cardCursor++].likeEvent.emit({ like });
+            // DO STUFF WITH YOUR CARD
+        }
+    }
+
+    onCardRelease(element) {
+        var item = this.cards[this.cardCursor++];
+        // DO STUFF WITH YOUR CARD
+    }
 }

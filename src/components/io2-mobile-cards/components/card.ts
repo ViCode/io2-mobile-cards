@@ -2,15 +2,8 @@ import {
     Component,
     ElementRef,
     EventEmitter,
-    Input,
-    Output,
     HostListener
 } from '@angular/core';
-
-// import {
-//     Gesture
-// } from 'ionic-angular/gestures/gesture';
-
 
 @Component({
     template: '<ng-content></ng-content>',
@@ -23,28 +16,20 @@ import {
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);\
       transition: transform 0.2s ease;\
     }\
-  ']
+  '],
+    inputs: ['orientation', 'fixed', 'callDestroy'],
+    outputs: ['onRelease', 'onSwipe']
 })
 export class CardComponent {
-    @Input() orientation: String = 'xy';
-    @Input() fixed: Boolean = false;
-    @Output() onRelease: EventEmitter<any> = new EventEmitter();
-    @Output() onSwipe: EventEmitter<any> = new EventEmitter();
+    orientation: String = 'xy';
+    fixed: Boolean = false;
+    onRelease: EventEmitter<any> = new EventEmitter();
+    onSwipe: EventEmitter<any> = new EventEmitter();
+    callDestroy: EventEmitter<any>;
 
     element: HTMLElement;
 
-    @HostListener('pan', ['$event'])
-    onPan(e: any) {
-        console.log('pan:', e);
-    }
-
-    @HostListener('panend', ['$event'])
-    onPanEnd(e: any) {
-        console.log('panend:', e);
-    }
-    //swipeGesture: Gesture;
-
-    constructor(private el: ElementRef) {
+    constructor(protected el: ElementRef) {
         this.element = el.nativeElement;
     }
 
@@ -75,31 +60,18 @@ export class CardComponent {
     }
 
     ngOnInit() {
+        var self = this;
+        if (this.callDestroy) {
+            this.callDestroy.subscribe((delay: number) => {
+                this.destroy(delay);
+            });
+        }
+    }
 
-        // Set gestures
-        // this.swipeGesture = new Gesture(this.element);
-        // this.swipeGesture.listen();
-        // this.swipeGesture.on("pan", (event: any) => {
-        //     if (!this.fixed) {
-        //         if (this.onSwipeCb) {
-        //             this.onSwipeCb(event);
-        //         }
-        //         if (this.onSwipe) {
-        //             this.onSwipe.emit(event);
-        //         }
-        //     }
-        // });
-        //
-        // this.swipeGesture.on("panend", (event: any) => {
-        //     if (!this.fixed) {
-        //         if (this.onReleaseCb) {
-        //             this.onReleaseCb(event);
-        //         }
-        //         if (this.onRelease) {
-        //             this.onRelease.emit(event);
-        //         }
-        //     }
-        // });
+    destroy(delay: number = 0) {
+        setTimeout(() => {
+            this.element.remove();
+        }, 200);
     }
 
     ngAfterViewChecked() {
@@ -110,8 +82,31 @@ export class CardComponent {
         }
     }
 
+    @HostListener('pan', ['$event'])
+    onPan(event: any) {
+        if (!this.fixed) {
+            if (this.onSwipeCb) {
+                this.onSwipeCb(event);
+            }
+            if (this.onSwipe) {
+                this.onSwipe.emit(event);
+            }
+        }
+    }
+
+    @HostListener('panend', ['$event'])
+    onPanEnd(event: any) {
+        if (!this.fixed) {
+            if (this.onReleaseCb) {
+                this.onReleaseCb(event);
+            }
+            if (this.onRelease) {
+                this.onRelease.emit(event);
+            }
+        }
+    }
+
     ngOnDestroy() {
-        //this.swipeGesture.destroy();
     }
 
 }

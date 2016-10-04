@@ -22,6 +22,7 @@ import 'core-js/es6/weak-map';
 import 'core-js/es6/weak-set';
 import 'core-js/es6/typed';
 import 'core-js/es6/reflect';
+import 'hammerjs';
 // see issue https://github.com/AngularClass/angular2-webpack-starter/issues/709
 // import 'core-js/es6/promise';
 
@@ -32,14 +33,14 @@ import 'zone.js/dist/zone';
 import 'ts-helpers';
 
 if ('production' === ENV) {
-  // Production
+    // Production
 
 
 } else {
-  // Development
+    // Development
 
-  (Error as any).stackTraceLimit = Infinity;
+    (Error as any).stackTraceLimit = Infinity;
 
-  require('zone.js/dist/long-stack-trace-zone');
+    require('zone.js/dist/long-stack-trace-zone');
 
 }
