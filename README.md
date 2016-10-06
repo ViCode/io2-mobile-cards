@@ -1,3 +1,7 @@
-# Angular 2: Cards
+# OBSOLETE
 
-Ionic 2 cards
+Please use ng2-swipe-cards instead
+
+```bash
+$ npm install ng2-swipe-cards --save
+```
